@@ -38,7 +38,7 @@ class AppModule(appModuleHandler.AppModule):
 			return
 		# Version 10.2009 introduces a regression where history items have no names
 		# but can be fetched through its children.
-		if not obj.name and obj.parent.UIAAutomationId == "HistoryListView":
+		if not obj.name and obj.parent.UIAElement.cachedAutomationId == "HistoryListView":
 			obj.name = "".join([item.name for item in obj.children])
 
 	_shouldAnnounceResult = False
