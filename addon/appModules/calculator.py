@@ -33,6 +33,14 @@ noCalculatorEntryAnnouncements = [
 
 class AppModule(appModuleHandler.AppModule):
 
+	def event_NVDAObject_init(self, obj):
+		if not isinstance(obj, UIA):
+			return
+		# Version 10.2009 introduces a regression where history items have no names
+		# but can be fetched through its children.
+		if not obj.name and obj.parent.UIAAutomationId == "HistoryListView":
+			obj.name = "".join([item.name for item in obj.children])
+
 	_shouldAnnounceResult = False
 	# Name change says the same thing multiple times for some items.
 	_resultsCache = ""
